@@ -14,7 +14,6 @@ class Main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(binding.root)
 
         val fragmentList = listOf(ProfileFragment(), JobMutationFragment(), JobPromotionFragment())
