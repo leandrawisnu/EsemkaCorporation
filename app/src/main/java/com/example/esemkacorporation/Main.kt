@@ -7,12 +7,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.esemkacorporation.databinding.ActivityMain2Binding
+import com.example.esemkacorporation.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 class Main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val binding = ActivityMain2Binding.inflate(layoutInflater)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
