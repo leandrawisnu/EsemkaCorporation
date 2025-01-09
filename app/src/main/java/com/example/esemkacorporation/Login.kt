@@ -20,6 +20,8 @@ class Login : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
+        getSharedPreferences("EsemkaCorporation", MODE_PRIVATE).edit().clear().apply()
+
         val home = Intent(this, Home::class.java)
 
         binding.loginBtn.setOnClickListener {
