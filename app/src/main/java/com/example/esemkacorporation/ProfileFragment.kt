@@ -7,8 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,6 +52,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val id = requireContext().getSharedPreferences("EsemkaCorporation", MODE_PRIVATE).getInt("ID", 0)
+
         val JobHistoryBtn = view.findViewById<Button>(R.id.JobHistoryBtn)
         JobHistoryBtn.setOnClickListener {
             startActivity(Intent(requireContext(), JobHistory::class.java))
@@ -57,6 +67,38 @@ class ProfileFragment : Fragment() {
         val SubordinateBtn = view.findViewById<Button>(R.id.SubordinateBtn)
         SubordinateBtn.setOnClickListener {
             startActivity(Intent(requireContext(), Subordinate::class.java))
+        }
+
+        val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+
+        val hello = view.findViewById<TextView>(R.id.hello_employee)
+        val name = view.findViewById<TextView>(R.id.profile_name)
+        val email = view.findViewById<TextView>(R.id.profile_email)
+        val phone = view.findViewById<TextView>(R.id.profile_number)
+        val hiredate = view.findViewById<TextView>(R.id.profile_hiredate)
+        val position = view.findViewById<TextView>(R.id.profile_position)
+        val joblevel = view.findViewById<TextView>(R.id.profile_joblevel)
+        val departement = view.findViewById<TextView>(R.id.profile_departement)
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val conn = URL("http://192.168.1.151:5000/api/Employee/${id}").openConnection() as HttpURLConnection
+            val response = conn.inputStream.bufferedReader().readText()
+            val data = JSONObject(response)
+
+            GlobalScope.launch(Dispatchers.Main) {
+                val rawDate = data.getString("hireDate")
+                val parsedDateTime = LocalDateTime.parse(rawDate)
+                val parsedDate = parsedDateTime.toLocalDate()
+
+                hello.text = "Hello, ${data.getString("name")}"
+                name.text = data.getString("name")
+                email.text = data.getString("email")
+                phone.text = data.getString("phoneNumber")
+                hiredate.text = parsedDate.format(formatter)
+                position.text = data.getString("position")
+                joblevel.text = data.getString("jobLevel")
+                departement.text = data.getString("departement")
+            }
         }
     }
 

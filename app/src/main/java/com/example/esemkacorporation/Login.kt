@@ -25,7 +25,7 @@ class Login : AppCompatActivity() {
         binding.loginBtn.setOnClickListener {
             GlobalScope.launch(Dispatchers.IO) {
                 // URL API menyesuaikan (Disini pakai ngrok)
-                val conn = URL("https://3967-27-131-249-215.ngrok-free.app/api/Employee/Login").openConnection() as HttpURLConnection
+                val conn = URL("http://192.168.1.151:5000/api/Employee/Login").openConnection() as HttpURLConnection
                 conn.setRequestProperty("Content-Type", "application/json")
                 conn.requestMethod = "POST"
 
