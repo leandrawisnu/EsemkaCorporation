@@ -34,7 +34,7 @@
             android:name=".JobHistory"
             android:exported="false" />
         <activity
-            android:name=".Main"
+            android:name=".Home"
             android:exported="false" />
         <activity
             android:name=".Login"
